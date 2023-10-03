@@ -1,0 +1,4 @@
+name: UniverseLand
+version: '${version}'
+main: space.yurisi.universeland.UniverseLand
+api-version: '1.20'
