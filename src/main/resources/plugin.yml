@@ -2,3 +2,6 @@ name: UniverseLand
 version: '${version}'
 main: space.yurisi.universeland.UniverseLand
 api-version: '1.20'
+commands:
+  land:
+    description: 土地を管理します
