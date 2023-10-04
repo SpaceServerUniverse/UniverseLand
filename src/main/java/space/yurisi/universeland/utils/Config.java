@@ -1,17 +1,17 @@
 package space.yurisi.universeland.utils;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import space.yurisi.universecore.UniverseCore;
+import space.yurisi.universeland.UniverseLand;
 
 import java.util.List;
 
 public class Config {
 
-    private final UniverseCore main;
+    private final UniverseLand main;
 
     private FileConfiguration config = null;
 
-    public Config(UniverseCore main){
+    public Config(UniverseLand main){
         this.main = main;
         init();
     }

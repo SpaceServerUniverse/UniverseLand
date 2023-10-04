@@ -1,5 +1,6 @@
 package space.yurisi.universeland.store;
 
+import space.yurisi.universeland.UniverseLand;
 import space.yurisi.universeland.utils.BoundingBox;
 import space.yurisi.universeland.utils.Vector2;
 
@@ -53,6 +54,11 @@ public class LandData {
         startPosition = null;
         endPosition = null;
         land = null;
+    }
+
+    public int getPrice() {
+        if(getLand() == null) return 0;
+        return getLand().getSize() * UniverseLand.getInstance().getPluginConfig().getLandPrice();
     }
 
     private void sortPositionData(){

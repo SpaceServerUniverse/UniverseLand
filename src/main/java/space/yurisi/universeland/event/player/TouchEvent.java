@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class TouchEvent implements Listener {
 
-    private LandDataManager landDataManager = new LandDataManager();
+    private final LandDataManager landDataManager = new LandDataManager();
 
     @EventHandler(ignoreCancelled = true)
     public void onTouch(PlayerInteractEvent event) {
@@ -41,7 +41,18 @@ public class TouchEvent implements Listener {
             } else {
                 landData.setEndPosition(new Vector2(x, z));
                 landData.setSelectLand(false);
-                player.sendMessage(Component.text("EndPositionを設定しました (X: " + x + ", Z: " + z + ") (サイズ: " + landData.getLand().getSize() + "ブロック)"));
+
+                int size = landData.getLand().getSize();
+
+                if(size <= 0){
+                    player.sendMessage(Component.text("保護する範囲は、2マス以上にしてください"));
+                    landData.resetLandData();
+                    return;
+                }
+
+                player.sendMessage(Component.text("EndPositionを設定しました (X: " + x + ", Z: " + z + ")"));
+                player.sendMessage(Component.text("サイズ: " + size + "ブロック (値段: " + landData.getPrice()));
+                player.sendMessage(Component.text("指定した範囲の土地を購入する際は、/land buyを実行してください"));
             }
         }
     }
