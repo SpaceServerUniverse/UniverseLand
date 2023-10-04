@@ -78,7 +78,7 @@ public class LandCommand implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         if (args.length == 1) {
             List<String> completions = List.of("buy");
             return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
