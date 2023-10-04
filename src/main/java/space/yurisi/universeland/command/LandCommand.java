@@ -11,14 +11,14 @@ import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import space.yurisi.universecore.database.DatabaseManager;
 import space.yurisi.universecore.database.models.User;
-import space.yurisi.universecore.expection.MoneyNotFoundException;
-import space.yurisi.universecore.expection.UserNotFoundException;
+import space.yurisi.universecore.exception.MoneyNotFoundException;
+import space.yurisi.universecore.exception.UserNotFoundException;
 import space.yurisi.universeeconomy.UniverseEconomyAPI;
 import space.yurisi.universeeconomy.exception.CanNotReduceMoneyException;
 import space.yurisi.universeeconomy.exception.ParameterException;
 import space.yurisi.universeland.UniverseLand;
 import space.yurisi.universeland.manager.LandDataManager;
-import space.yurisi.universeland.store.LandData;
+import space.yurisi.universeland.store.LandStore;
 import space.yurisi.universeland.utils.BoundingBox;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class LandCommand implements CommandExecutor, TabCompleter {
             LandDataManager.getInstance().setLandData(player.getUniqueId());
         }
 
-        LandData landData = LandDataManager.getInstance().getLandData(player.getUniqueId());
+        LandStore landData = LandDataManager.getInstance().getLandData(player.getUniqueId());
 
         if (args.length == 0) {
             landData.setSelectLand(true);

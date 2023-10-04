@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import space.yurisi.universeland.manager.LandDataManager;
-import space.yurisi.universeland.store.LandData;
+import space.yurisi.universeland.store.LandStore;
 import space.yurisi.universeland.utils.Vector2;
 
 import java.util.UUID;
@@ -27,7 +27,7 @@ public class TouchEvent implements Listener {
             initLandData(player);
         }
 
-        LandData landData = landDataManager.getLandData(uuid);
+        LandStore landData = landDataManager.getLandData(uuid);
 
         if (landData.isSelectLand()) {
             Block block = event.getClickedBlock();
