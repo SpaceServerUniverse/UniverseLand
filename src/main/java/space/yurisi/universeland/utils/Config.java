@@ -11,12 +11,12 @@ public class Config {
 
     private FileConfiguration config = null;
 
-    public Config(UniverseLand main){
+    public Config(UniverseLand main) {
         this.main = main;
         init();
     }
 
-    private void init(){
+    private void init() {
         main.saveDefaultConfig();
         if (config != null) {
             main.reloadConfig();
@@ -24,11 +24,11 @@ public class Config {
         this.config = main.getConfig();
     }
 
-    public int getLandPrice(){
-        return this.config.getInt("land-price");
+    public Long getLandPrice() {
+        return this.config.getLong("land-price");
     }
 
-    public List<String> getDenyWorlds(){
+    public List<String> getDenyWorlds() {
         return this.config.getStringList("deny-worlds");
     }
 }

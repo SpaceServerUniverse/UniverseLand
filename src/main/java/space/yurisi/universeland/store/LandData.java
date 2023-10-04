@@ -11,6 +11,8 @@ public class LandData {
     private Vector2 startPosition = null;
     private Vector2 endPosition = null;
 
+    private String worldName = null;
+
     private BoundingBox land = null;
 
     public boolean isSelectLand() {
@@ -43,26 +45,35 @@ public class LandData {
     }
 
     public void setLand() {
-        if(startPosition == null || endPosition == null) return;
+        if (startPosition == null || endPosition == null) return;
 
         sortPositionData();
 
-        land = new BoundingBox(startPosition.getX(), startPosition.getZ(), endPosition.getX(), endPosition.getZ());
+        land = new BoundingBox(startPosition.getX(), startPosition.getZ(), endPosition.getX(), endPosition.getZ(), getWorldName());
     }
 
     public void resetLandData() {
         startPosition = null;
         endPosition = null;
+        worldName = null;
         land = null;
     }
 
-    public int getPrice() {
-        if(getLand() == null) return 0;
-        return getLand().getSize() * UniverseLand.getInstance().getPluginConfig().getLandPrice();
+    public String getWorldName() {
+        return worldName;
     }
 
-    private void sortPositionData(){
-        if(startPosition == null || endPosition == null) return;
+    public void setWorldName(String worldName) {
+        this.worldName = worldName;
+    }
+
+    public Long getPrice() {
+        if (getLand() == null) return 0L;
+        return (long) getLand().getSize() * UniverseLand.getInstance().getPluginConfig().getLandPrice();
+    }
+
+    private void sortPositionData() {
+        if (startPosition == null || endPosition == null) return;
 
         int x1 = startPosition.x;
         int z1 = startPosition.z;
@@ -70,12 +81,12 @@ public class LandData {
         int x2 = endPosition.x;
         int z2 = endPosition.z;
 
-        if(x2 < x1){
+        if (x2 < x1) {
             startPosition.x = x2;
             endPosition.x = x1;
         }
 
-        if(z2 < z1){
+        if (z2 < z1) {
             startPosition.z = z2;
             endPosition.z = z1;
         }

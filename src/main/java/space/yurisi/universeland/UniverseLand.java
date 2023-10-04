@@ -1,6 +1,8 @@
 package space.yurisi.universeland;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import space.yurisi.universecore.UniverseCoreAPI;
+import space.yurisi.universecore.database.DatabaseManager;
 import space.yurisi.universeland.command.LandCommand;
 import space.yurisi.universeland.manager.EventManager;
 import space.yurisi.universeland.utils.Config;
@@ -10,12 +12,16 @@ import java.util.Objects;
 public final class UniverseLand extends JavaPlugin {
 
     private static UniverseLand instance;
-    private Config config = new Config(this);
+    private DatabaseManager databaseManager;
+    private final Config config = new Config(this);
 
     @Override
     public void onEnable() {
         Objects.requireNonNull(getCommand("land")).setExecutor(new LandCommand());
         EventManager.init(this);
+
+        databaseManager = UniverseCoreAPI.getInstance().getDatabaseManager();
+
         getLogger().info("UniverseLandを読み込みました");
     }
 
@@ -24,11 +30,15 @@ public final class UniverseLand extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    public static UniverseLand getInstance(){
+    public static UniverseLand getInstance() {
         return instance;
     }
 
-    public Config getPluginConfig(){
+    public Config getPluginConfig() {
         return config;
+    }
+
+    public DatabaseManager getDatabaseManager(){
+        return databaseManager;
     }
 }

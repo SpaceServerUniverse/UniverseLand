@@ -9,9 +9,9 @@ public class LandDataManager {
 
     private static LandDataManager instance;
 
-    private LinkedHashMap<UUID, LandData> data = new LinkedHashMap<>();
+    private final LinkedHashMap<UUID, LandData> data = new LinkedHashMap<>();
 
-    public LandDataManager(){
+    public LandDataManager() {
         instance = this;
     }
 
@@ -19,11 +19,11 @@ public class LandDataManager {
         return instance;
     }
 
-    public LandData getLandData(UUID uuid){
+    public LandData getLandData(UUID uuid) {
         return data.get(uuid);
     }
 
-    public void setLandData(UUID uuid){
+    public void setLandData(UUID uuid) {
         data.put(uuid, new LandData());
     }
 }

@@ -19,7 +19,7 @@ public class TouchEvent implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onTouch(PlayerInteractEvent event) {
-        if(event.getHand() != EquipmentSlot.HAND) return;
+        if (event.getHand() != EquipmentSlot.HAND) return;
 
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
@@ -37,6 +37,7 @@ public class TouchEvent implements Listener {
 
             if (landData.getStartPosition() == null) {
                 landData.setStartPosition(new Vector2(x, z));
+                landData.setWorldName(player.getWorld().getWorldFolder().getName());
                 player.sendMessage(Component.text("StartPositionを設定しました (X: " + x + ", Z: " + z + ")"));
             } else {
                 landData.setEndPosition(new Vector2(x, z));
@@ -44,8 +45,12 @@ public class TouchEvent implements Listener {
 
                 int size = landData.getLand().getSize();
 
-                if(size <= 0){
+                if (size <= 0) {
                     player.sendMessage(Component.text("保護する範囲は、2マス以上にしてください"));
+                    landData.resetLandData();
+                    return;
+                }else if(!player.getWorld().getWorldFolder().getName().equals(landData.getWorldName())){
+                    player.sendMessage(Component.text("同じワールドで範囲を指定してください"));
                     landData.resetLandData();
                     return;
                 }

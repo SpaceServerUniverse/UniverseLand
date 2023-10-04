@@ -1,17 +1,20 @@
 package space.yurisi.universeland.utils;
 
 public class BoundingBox {
-    private int minX;
-    private int minZ;
+    private final int minX;
+    private final int minZ;
 
-    private int maxX;
-    private int maxZ;
+    private final int maxX;
+    private final int maxZ;
 
-    public BoundingBox(int x1, int z1, int x2, int z2) {
+    private final String worldName;
+
+    public BoundingBox(int x1, int z1, int x2, int z2, String worldName) {
         this.minX = x1;
         this.minZ = z1;
         this.maxX = x2;
         this.maxZ = z2;
+        this.worldName = worldName;
     }
 
     public int getMinX() {
@@ -28,6 +31,10 @@ public class BoundingBox {
 
     public int getMaxZ() {
         return maxZ;
+    }
+
+    public String getWorldName() {
+        return worldName;
     }
 
     public boolean isOverlapping(BoundingBox other) {
