@@ -38,7 +38,7 @@ public final class UniverseLand extends JavaPlugin {
         return config;
     }
 
-    public DatabaseManager getDatabaseManager(){
+    public DatabaseManager getDatabaseManager() {
         return databaseManager;
     }
 }

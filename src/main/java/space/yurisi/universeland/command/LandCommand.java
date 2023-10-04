@@ -57,9 +57,9 @@ public class LandCommand implements CommandExecutor, TabCompleter {
             try {
                 User user = database.getUserRepository().getUserFromUUID(player.getUniqueId());
                 Long money = UniverseEconomyAPI.getInstance().getMoney(player);
-                if(price > money){
+                if (price > money) {
                     player.sendMessage(Component.text("購入失敗: お金が足りません(不足金: " + (price - money) + "star"));
-                }else{
+                } else {
                     UniverseEconomyAPI.getInstance().reduceMoney(player, price, "土地の購入");
                     database.getLandRepository().createLand(user, land.getMinX(), land.getMinZ(), land.getMaxX(), land.getMaxZ(), land.getWorldName());
 

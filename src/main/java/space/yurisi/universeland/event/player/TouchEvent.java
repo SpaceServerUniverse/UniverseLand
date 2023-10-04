@@ -49,7 +49,7 @@ public class TouchEvent implements Listener {
                     player.sendMessage(Component.text("保護する範囲は、2マス以上にしてください"));
                     landData.resetLandData();
                     return;
-                }else if(!player.getWorld().getWorldFolder().getName().equals(landData.getWorldName())){
+                } else if (!player.getWorld().getWorldFolder().getName().equals(landData.getWorldName())) {
                     player.sendMessage(Component.text("同じワールドで範囲を指定してください"));
                     landData.resetLandData();
                     return;
