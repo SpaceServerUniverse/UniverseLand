@@ -42,6 +42,6 @@ public class BoundingBox {
     }
 
     public int getSize() {
-        return maxX - minX + maxZ - minZ;
+        return (maxX - minX + 1) * (maxZ - minZ + 1);
     }
 }

@@ -2,6 +2,10 @@ name: UniverseLand
 version: '${version}'
 main: space.yurisi.universeland.UniverseLand
 api-version: '1.20'
+depend: ["UniverseCore", "UniverseEconomy"]
+softdepend:
+  - "UniverseCore"
+  - "UniverseEconomy"
 commands:
   land:
     description: 土地を管理します

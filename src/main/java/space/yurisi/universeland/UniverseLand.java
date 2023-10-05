@@ -17,6 +17,8 @@ public final class UniverseLand extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
+
         Objects.requireNonNull(getCommand("land")).setExecutor(new LandCommand());
         EventManager.init(this);
 

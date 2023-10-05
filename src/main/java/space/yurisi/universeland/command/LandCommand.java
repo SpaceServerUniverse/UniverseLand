@@ -2,6 +2,7 @@ package space.yurisi.universeland.command;
 
 import com.google.common.collect.ImmutableList;
 import net.kyori.adventure.text.Component;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,6 +12,7 @@ import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import space.yurisi.universecore.database.DatabaseManager;
 import space.yurisi.universecore.database.models.User;
+import space.yurisi.universecore.exception.LandNotFoundException;
 import space.yurisi.universecore.exception.MoneyNotFoundException;
 import space.yurisi.universecore.exception.UserNotFoundException;
 import space.yurisi.universeeconomy.UniverseEconomyAPI;
@@ -18,6 +20,7 @@ import space.yurisi.universeeconomy.exception.CanNotReduceMoneyException;
 import space.yurisi.universeeconomy.exception.ParameterException;
 import space.yurisi.universeland.UniverseLand;
 import space.yurisi.universeland.manager.LandDataManager;
+import space.yurisi.universeland.store.LandData;
 import space.yurisi.universeland.store.LandStore;
 import space.yurisi.universeland.utils.BoundingBox;
 
@@ -40,6 +43,7 @@ public class LandCommand implements CommandExecutor, TabCompleter {
         LandStore landData = LandDataManager.getInstance().getLandData(player.getUniqueId());
 
         if (args.length == 0) {
+
             landData.setSelectLand(true);
             landData.resetLandData();
             player.sendMessage(Component.text("範囲を指定してください"));
@@ -52,6 +56,15 @@ public class LandCommand implements CommandExecutor, TabCompleter {
                 return false;
             }
 
+            try {
+                LandData overlapLandData = LandDataManager.getInstance().getOverlapLandData(land);
+                if(overlapLandData != null){
+                    OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(overlapLandData.getOwnerUUID());
+                    player.sendMessage(Component.text("選択した範囲は、" + p.getName() + "によって保護されています"));
+                    return false;
+                }
+            } catch (LandNotFoundException ignored) {}
+
             DatabaseManager database = UniverseLand.getInstance().getDatabaseManager();
             Long price = landData.getPrice();
             try {
@@ -61,7 +74,7 @@ public class LandCommand implements CommandExecutor, TabCompleter {
                     player.sendMessage(Component.text("購入失敗: お金が足りません(不足金: " + (price - money) + "star"));
                 } else {
                     UniverseEconomyAPI.getInstance().reduceMoney(player, price, "土地の購入");
-                    database.getLandRepository().createLand(user, land.getMinX(), land.getMinZ(), land.getMaxX(), land.getMaxZ(), land.getWorldName());
+                    database.getLandRepository().createLand(player, land.getMinX(), land.getMinZ(), land.getMaxX(), land.getMaxZ(), land.getWorldName());
 
                     player.sendMessage(Component.text("指定した土地の購入に成功しました"));
                 }

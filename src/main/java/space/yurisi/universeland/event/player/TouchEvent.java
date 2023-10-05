@@ -1,13 +1,18 @@
 package space.yurisi.universeland.event.player;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import space.yurisi.universecore.exception.LandNotFoundException;
+import space.yurisi.universeland.UniverseLand;
 import space.yurisi.universeland.manager.LandDataManager;
+import space.yurisi.universeland.store.LandData;
 import space.yurisi.universeland.store.LandStore;
 import space.yurisi.universeland.utils.Vector2;
 
@@ -17,12 +22,26 @@ public class TouchEvent implements Listener {
 
     private final LandDataManager landDataManager = new LandDataManager();
 
-    @EventHandler(ignoreCancelled = true)
-    public void onTouch(PlayerInteractEvent event) {
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onTouch(PlayerInteractEvent event) throws LandNotFoundException {
         if (event.getHand() != EquipmentSlot.HAND) return;
 
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
+        Block block = event.getClickedBlock();
+
+        /*
+        LandData data = LandDataManager.getInstance().getOverlapLandData(block != null ? block.getX() : 0, block != null ? block.getZ() : 0);
+
+        if(data != null){
+            event.setCancelled(true);
+
+            OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());
+            player.sendActionBar(Component.text("この土地は" + p.getName() + "によって保護されています"));
+            return;
+        }
+        */
+
         if (landDataManager.getLandData(uuid) == null) {
             initLandData(player);
         }
@@ -30,7 +49,7 @@ public class TouchEvent implements Listener {
         LandStore landData = landDataManager.getLandData(uuid);
 
         if (landData.isSelectLand()) {
-            Block block = event.getClickedBlock();
+            event.setCancelled(true);
 
             int x = block != null ? block.getX() : 0;
             int z = block != null ? block.getZ() : 0;
@@ -55,7 +74,13 @@ public class TouchEvent implements Listener {
                     return;
                 }
 
-                //TODO: 指定した範囲の土地がかぶっている場合の処理
+                LandData overlapLandData = LandDataManager.getInstance().getOverlapLandData(landData.getLand());
+
+                if(overlapLandData != null){
+                    OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(overlapLandData.getOwnerUUID());
+                    player.sendMessage(Component.text("選択した範囲は、" + p.getName() + "によって保護されています"));
+                    return;
+                }
 
                 player.sendMessage(Component.text("EndPositionを設定しました (X: " + x + ", Z: " + z + ")"));
                 player.sendMessage(Component.text("サイズ: " + size + "ブロック (値段: " + landData.getPrice()));

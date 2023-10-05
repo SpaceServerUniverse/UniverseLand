@@ -38,15 +38,24 @@ public class LandDataManager {
         List<LandData> data = new ArrayList<>();
         List<Land> lands = UniverseLand.getInstance().getDatabaseManager().getLandRepository().getLands();
         for(Land land : lands){
-            //FIXME: UUIDが取得できない！
+            data.add(new LandData(UUID.fromString(land.getUUID()), new BoundingBox(land.getStart_x(), land.getStart_z(), land.getEnd_x(), land.getEnd_z(), land.getWorld_name()), new ArrayList<>()));
         }
         return data;
     }
 
     public LandData getOverlapLandData(int x, int z) throws LandNotFoundException {
         for(LandData land : getLandsData()){
-            //BoundingBox bb =
-            //if(land.getMinX() <= x && x >= land.getMaxX() && land.getMinZ() <= z && z >= land.getMaxZ()) return land;
+            BoundingBox bb = land.getBoundingBox();
+            if(x <= bb.getMinX() && x >= bb.getMaxX() && bb.getMinZ() <= z && z >= bb.getMaxZ()) return land;
+        }
+
+        return null;
+    }
+
+    public LandData getOverlapLandData(BoundingBox other) throws LandNotFoundException {
+        for(LandData land : getLandsData()){
+            BoundingBox bb = land.getBoundingBox();
+            if(bb.isOverlapping(other)) return land;
         }
 
         return null;
