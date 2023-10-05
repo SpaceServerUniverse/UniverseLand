@@ -2,25 +2,22 @@ package space.yurisi.universeland.event.block;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import space.yurisi.universecore.exception.LandNotFoundException;
 import space.yurisi.universeland.UniverseLand;
 import space.yurisi.universeland.manager.LandDataManager;
 import space.yurisi.universeland.store.LandData;
 import space.yurisi.universeland.utils.BoundingBox;
 
-import java.util.UUID;
-
-public class BreakEvent implements Listener {
+public class PlaceEvent implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onBreak(BlockBreakEvent event) throws LandNotFoundException {
+    public void onPlace(BlockPlaceEvent event) throws LandNotFoundException {
         Player player = event.getPlayer();
         Block block = event.getBlock();
 

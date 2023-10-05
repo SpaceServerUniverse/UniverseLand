@@ -43,15 +43,6 @@ public class LandDataManager {
         return data;
     }
 
-    public LandData getOverlapLandData(int x, int z) throws LandNotFoundException {
-        for(LandData land : getLandsData()){
-            BoundingBox bb = land.getBoundingBox();
-            if(x <= bb.getMinX() && x >= bb.getMaxX() && bb.getMinZ() <= z && z >= bb.getMaxZ()) return land;
-        }
-
-        return null;
-    }
-
     public LandData getOverlapLandData(BoundingBox other) throws LandNotFoundException {
         for(LandData land : getLandsData()){
             BoundingBox bb = land.getBoundingBox();
