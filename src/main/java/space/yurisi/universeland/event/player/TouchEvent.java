@@ -33,7 +33,7 @@ public class TouchEvent implements Listener {
 
         LandData data = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
 
-        if(data != null){
+        if (data != null) {
             event.setCancelled(true);
 
             OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());
@@ -75,7 +75,7 @@ public class TouchEvent implements Listener {
 
                 LandData overlapLandData = LandDataManager.getInstance().getOverlapLandData(landData.getLand());
 
-                if(overlapLandData != null){
+                if (overlapLandData != null) {
                     OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(overlapLandData.getOwnerUUID());
                     player.sendMessage(Component.text("選択した範囲は、" + p.getName() + "によって保護されています"));
                     return;

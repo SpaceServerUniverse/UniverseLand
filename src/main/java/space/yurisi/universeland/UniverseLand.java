@@ -12,8 +12,12 @@ import java.util.Objects;
 public final class UniverseLand extends JavaPlugin {
 
     private static UniverseLand instance;
-    private DatabaseManager databaseManager;
     private final Config config = new Config(this);
+    private DatabaseManager databaseManager;
+
+    public static UniverseLand getInstance() {
+        return instance;
+    }
 
     @Override
     public void onEnable() {
@@ -30,10 +34,6 @@ public final class UniverseLand extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-    }
-
-    public static UniverseLand getInstance() {
-        return instance;
     }
 
     public Config getPluginConfig() {

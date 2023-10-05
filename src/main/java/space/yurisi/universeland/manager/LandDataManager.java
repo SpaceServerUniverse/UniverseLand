@@ -37,16 +37,16 @@ public class LandDataManager {
     public List<LandData> getLandsData() throws LandNotFoundException {
         List<LandData> data = new ArrayList<>();
         List<Land> lands = UniverseLand.getInstance().getDatabaseManager().getLandRepository().getLands();
-        for(Land land : lands){
+        for (Land land : lands) {
             data.add(new LandData(UUID.fromString(land.getUUID()), new BoundingBox(land.getStart_x(), land.getStart_z(), land.getEnd_x(), land.getEnd_z(), land.getWorld_name()), new ArrayList<>()));
         }
         return data;
     }
 
     public LandData getOverlapLandData(BoundingBox other) throws LandNotFoundException {
-        for(LandData land : getLandsData()){
+        for (LandData land : getLandsData()) {
             BoundingBox bb = land.getBoundingBox();
-            if(bb.isOverlapping(other)) return land;
+            if (bb.isOverlapping(other)) return land;
         }
 
         return null;

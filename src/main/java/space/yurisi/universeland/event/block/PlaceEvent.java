@@ -23,7 +23,7 @@ public class PlaceEvent implements Listener {
 
         LandData data = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
 
-        if(data != null){
+        if (data != null) {
             event.setCancelled(true);
 
             OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());

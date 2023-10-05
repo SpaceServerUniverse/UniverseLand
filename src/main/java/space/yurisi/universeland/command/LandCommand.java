@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import space.yurisi.universecore.database.DatabaseManager;
-import space.yurisi.universecore.database.models.User;
 import space.yurisi.universecore.exception.LandNotFoundException;
 import space.yurisi.universecore.exception.MoneyNotFoundException;
 import space.yurisi.universecore.exception.UserNotFoundException;
@@ -58,17 +57,17 @@ public class LandCommand implements CommandExecutor, TabCompleter {
 
             try {
                 LandData overlapLandData = LandDataManager.getInstance().getOverlapLandData(land);
-                if(overlapLandData != null){
+                if (overlapLandData != null) {
                     OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(overlapLandData.getOwnerUUID());
                     player.sendMessage(Component.text("選択した範囲は、" + p.getName() + "によって保護されています"));
                     return false;
                 }
-            } catch (LandNotFoundException ignored) {}
+            } catch (LandNotFoundException ignored) {
+            }
 
             DatabaseManager database = UniverseLand.getInstance().getDatabaseManager();
             Long price = landData.getPrice();
             try {
-                User user = database.getUserRepository().getUserFromUUID(player.getUniqueId());
                 Long money = UniverseEconomyAPI.getInstance().getMoney(player);
                 if (price > money) {
                     player.sendMessage(Component.text("購入失敗: お金が足りません(不足金: " + (price - money) + "star"));

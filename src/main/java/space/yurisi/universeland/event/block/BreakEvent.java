@@ -2,7 +2,6 @@ package space.yurisi.universeland.event.block;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,8 +14,6 @@ import space.yurisi.universeland.manager.LandDataManager;
 import space.yurisi.universeland.store.LandData;
 import space.yurisi.universeland.utils.BoundingBox;
 
-import java.util.UUID;
-
 public class BreakEvent implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -26,7 +23,7 @@ public class BreakEvent implements Listener {
 
         LandData data = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
 
-        if(data != null){
+        if (data != null) {
             event.setCancelled(true);
 
             OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());
