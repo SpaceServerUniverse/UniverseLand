@@ -14,6 +14,7 @@ import space.yurisi.universeland.UniverseLand;
 import space.yurisi.universeland.manager.LandDataManager;
 import space.yurisi.universeland.store.LandData;
 import space.yurisi.universeland.store.LandStore;
+import space.yurisi.universeland.utils.BoundingBox;
 import space.yurisi.universeland.utils.Vector2;
 
 import java.util.UUID;
@@ -30,8 +31,7 @@ public class TouchEvent implements Listener {
         UUID uuid = player.getUniqueId();
         Block block = event.getClickedBlock();
 
-        /*
-        LandData data = LandDataManager.getInstance().getOverlapLandData(block != null ? block.getX() : 0, block != null ? block.getZ() : 0);
+        LandData data = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
 
         if(data != null){
             event.setCancelled(true);
@@ -40,7 +40,6 @@ public class TouchEvent implements Listener {
             player.sendActionBar(Component.text("この土地は" + p.getName() + "によって保護されています"));
             return;
         }
-        */
 
         if (landDataManager.getLandData(uuid) == null) {
             initLandData(player);
@@ -51,8 +50,8 @@ public class TouchEvent implements Listener {
         if (landData.isSelectLand()) {
             event.setCancelled(true);
 
-            int x = block != null ? block.getX() : 0;
-            int z = block != null ? block.getZ() : 0;
+            int x = block.getX();
+            int z = block.getZ();
 
             if (landData.getStartPosition() == null) {
                 landData.setStartPosition(new Vector2(x, z));
