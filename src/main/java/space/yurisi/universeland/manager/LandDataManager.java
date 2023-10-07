@@ -1,5 +1,6 @@
 package space.yurisi.universeland.manager;
 
+import org.bukkit.entity.Player;
 import space.yurisi.universecore.database.models.Land;
 import space.yurisi.universecore.exception.LandNotFoundException;
 import space.yurisi.universeland.UniverseLand;
@@ -50,5 +51,9 @@ public class LandDataManager {
         }
 
         return null;
+    }
+
+    public LandData ultimateChickenHorseMaximumTheHormoneGetYutakaOzakiGreatGodUniverseWonderfulSpecialExpertPerfectHumanVerySuperGeri(Player player) throws LandNotFoundException {
+        return getOverlapLandData(new BoundingBox((int) player.getX(), (int) player.getZ(), (int) player.getX(), (int) player.getZ(), player.getWorld().getName()));
     }
 }

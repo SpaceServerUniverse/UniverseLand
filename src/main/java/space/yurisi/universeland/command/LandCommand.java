@@ -42,12 +42,11 @@ public class LandCommand implements CommandExecutor, TabCompleter {
         LandStore landData = LandDataManager.getInstance().getLandData(player.getUniqueId());
 
         if (args.length == 0) {
-
             landData.setSelectLand(true);
             landData.resetLandData();
             player.sendMessage(Component.text("範囲を指定してください"));
             return false;
-        } else if (args.length == 1 && args[0].equals("buy")) {
+        } else if (args[0].equals("buy")) {
             BoundingBox land = landData.getLand();
 
             if (land == null) {
@@ -84,6 +83,13 @@ public class LandCommand implements CommandExecutor, TabCompleter {
             } catch (CanNotReduceMoneyException e) {
                 player.sendMessage(Component.text("購入失敗: 決済処理に失敗しました"));
             }
+        } else if (args[0].equals("invite")) {
+            if (args.length == 1) {
+                player.sendMessage(Component.text("招待するプレイヤー名を指定してください"));
+                return false;
+            }
+
+            //間バッタ
         }
 
         return true;

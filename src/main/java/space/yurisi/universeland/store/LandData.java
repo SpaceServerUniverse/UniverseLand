@@ -1,5 +1,6 @@
 package space.yurisi.universeland.store;
 
+import org.bukkit.entity.Player;
 import space.yurisi.universeland.utils.BoundingBox;
 
 import java.util.List;
@@ -27,5 +28,23 @@ public class LandData {
 
     public List<UUID> getAllowedList() {
         return allowedList;
+    }
+
+    public boolean isOwner(Player player) {
+        return ownerUUID.toString().equals(player.getUniqueId().toString());
+    }
+
+    public boolean canAccess(Player player) {
+        if (player.isOp() || ownerUUID.toString().equals(player.getUniqueId().toString())) {
+            return true;
+        }
+
+        for (UUID uuid : allowedList) {
+            if (uuid.toString().equals(player.getUniqueId().toString())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

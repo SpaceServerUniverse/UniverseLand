@@ -31,9 +31,11 @@ public class TouchEvent implements Listener {
         UUID uuid = player.getUniqueId();
         Block block = event.getClickedBlock();
 
+        if(block == null) return;
+
         LandData data = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
 
-        if (data != null) {
+        if (data != null && !data.isOwner(player) && !data.canAccess(player)) {
             event.setCancelled(true);
 
             OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());
