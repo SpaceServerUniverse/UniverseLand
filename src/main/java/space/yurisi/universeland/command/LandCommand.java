@@ -27,6 +27,7 @@ import space.yurisi.universeland.utils.BoundingBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class LandCommand implements CommandExecutor, TabCompleter {
 
@@ -51,12 +52,13 @@ public class LandCommand implements CommandExecutor, TabCompleter {
         } else if (args[0].equals("buy")) {
             BoundingBox land = landData.getLand();
 
-            if (land == null) {
-                player.sendMessage(Component.text("範囲が指定されていません"));
+            if(UniverseLand.getInstance().getPluginConfig().getDenyWorlds().contains(land.getWorldName())){
+                player.sendMessage(Component.text("このワールドでは土地を保護することはできません"));
                 return false;
             }
 
             LandData overlapLandData = LandDataManager.getInstance().getOverlapLandData(land);
+
             if (overlapLandData != null) {
                 OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(overlapLandData.getOwnerUUID());
                 player.sendMessage(Component.text("選択した範囲は、" + p.getName() + "によって保護されています"));
@@ -108,6 +110,17 @@ public class LandCommand implements CommandExecutor, TabCompleter {
             } catch (LandNotFoundException e) {
                 player.sendMessage(Component.text("土地データが見つかりませんでした"));
             }
+        } else if (args[0].equals("here")) {
+            LandData land = LandDataManager.getInstance().ultimateChickenHorseMaximumTheHormoneGetYutakaOzakiGreatGodUniverseWonderfulSpecialExpertPerfectHumanVerySuperGeri(player);
+            if(land == null){
+                player.sendMessage(Component.text("この土地の情報がみつかりませんでした"));
+                return false;
+            }
+
+            OfflinePlayer offlinePlayer = UniverseLand.getInstance().getServer().getOfflinePlayer(land.getOwnerUUID());
+            player.sendMessage(Component.text("情報"));
+            player.sendMessage(Component.text("土地ID: " + land.getId()));
+            player.sendMessage(Component.text("所有者: " + offlinePlayer.getName()));
         }
 
         return true;
@@ -116,7 +129,7 @@ public class LandCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         if (args.length == 1) {
-            List<String> completions = List.of("buy");
+            List<String> completions = List.of("buy", "invite", "here");
             return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
         }
         return ImmutableList.of();
