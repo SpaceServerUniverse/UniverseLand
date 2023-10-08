@@ -23,7 +23,7 @@ public class TouchEvent implements Listener {
 
     private final LandDataManager landDataManager = new LandDataManager();
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onTouch(PlayerInteractEvent event) throws LandNotFoundException {
         if (event.getHand() != EquipmentSlot.HAND) return;
 

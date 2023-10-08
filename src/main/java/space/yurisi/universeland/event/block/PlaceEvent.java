@@ -16,7 +16,7 @@ import space.yurisi.universeland.utils.BoundingBox;
 
 public class PlaceEvent implements Listener {
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlace(BlockPlaceEvent event) throws LandNotFoundException {
         Player player = event.getPlayer();
         Block block = event.getBlock();
