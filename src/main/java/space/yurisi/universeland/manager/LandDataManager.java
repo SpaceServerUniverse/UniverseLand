@@ -56,7 +56,7 @@ public class LandDataManager {
                 for(LandPermission landPermission : dbAllowedList){
                     allowedList.add(UUID.fromString(landPermission.getUuid()));
                 }
-                data.add(new LandData(land.getId(), UUID.fromString(land.getUuid()), new BoundingBox(land.getStart_x(), land.getStart_z(), land.getEnd_x(), land.getEnd_z(), land.getWorld_name()), allowedList));
+                data.add(new LandData(land.getId(), UUID.fromString(land.getUuid()), land.getPrice(), new BoundingBox(land.getStart_x(), land.getStart_z(), land.getEnd_x(), land.getEnd_z(), land.getWorld_name()), allowedList));
 
             } catch (LandPermissionNotFoundException e) {
                 throw new RuntimeException(e);

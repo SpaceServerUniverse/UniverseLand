@@ -11,12 +11,14 @@ public class LandData {
     private final Long id;
 
     private final UUID ownerUUID;
+    private final Long price;
     private final BoundingBox boundingBox;
     private final List<UUID> allowedList;
 
-    public LandData(Long id, UUID ownerUUID, BoundingBox boundingBox, List<UUID> allowedList) {
+    public LandData(Long id, UUID ownerUUID, Long price, BoundingBox boundingBox, List<UUID> allowedList) {
         this.id = id;
         this.ownerUUID = ownerUUID;
+        this.price = price;
         this.boundingBox = boundingBox;
         this.allowedList = allowedList;
     }
@@ -27,6 +29,10 @@ public class LandData {
 
     public UUID getOwnerUUID() {
         return ownerUUID;
+    }
+
+    public Long getPrice() {
+        return price;
     }
 
     public BoundingBox getBoundingBox() {
