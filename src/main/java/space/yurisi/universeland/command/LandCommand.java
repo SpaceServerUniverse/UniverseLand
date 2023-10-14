@@ -17,6 +17,7 @@ import space.yurisi.universecore.exception.LandNotFoundException;
 import space.yurisi.universecore.exception.MoneyNotFoundException;
 import space.yurisi.universecore.exception.UserNotFoundException;
 import space.yurisi.universeeconomy.UniverseEconomyAPI;
+import space.yurisi.universeeconomy.exception.CanNotAddMoneyException;
 import space.yurisi.universeeconomy.exception.CanNotReduceMoneyException;
 import space.yurisi.universeeconomy.exception.ParameterException;
 import space.yurisi.universeland.UniverseLand;
@@ -52,7 +53,7 @@ public class LandCommand implements CommandExecutor, TabCompleter {
         } else if (args[0].equals("buy")) {
             BoundingBox land = landData.getLand();
 
-            if(UniverseLand.getInstance().getPluginConfig().getDenyWorlds().contains(land.getWorldName())){
+            if (UniverseLand.getInstance().getPluginConfig().getDenyWorlds().contains(land.getWorldName())) {
                 player.sendMessage(Component.text("このワールドでは土地を保護することはできません"));
                 return false;
             }
@@ -73,7 +74,7 @@ public class LandCommand implements CommandExecutor, TabCompleter {
                     player.sendMessage(Component.text("購入失敗: お金が足りません(不足金: " + (price - money) + "star"));
                 } else {
                     UniverseEconomyAPI.getInstance().reduceMoney(player, price, "土地の購入");
-                    database.getLandRepository().createLand(player, land.getMinX(), land.getMinZ(), land.getMaxX(), land.getMaxZ(), land.getWorldName());
+                    database.getLandRepository().createLand(player, land.getMinX(), land.getMinZ(), land.getMaxX(), land.getMaxZ(), land.getWorldName(), price);
 
                     player.sendMessage(Component.text("指定した土地の購入に成功しました"));
                 }
@@ -84,6 +85,31 @@ public class LandCommand implements CommandExecutor, TabCompleter {
             } catch (CanNotReduceMoneyException e) {
                 player.sendMessage(Component.text("購入失敗: 決済処理に失敗しました"));
             }
+        }else if (args[0].equals("sell")) {
+            LandData land = LandDataManager.getInstance().ultimateChickenHorseMaximumTheHormoneGetYutakaOzakiGreatGodUniverseWonderfulSpecialExpertPerfectHumanVerySuperGeri(player);
+
+            if(land == null){
+                player.sendMessage(Component.text("この土地の情報がみつかりませんでした"));
+                return false;
+            }
+
+            UUID ownerUUID = land.getOwnerUUID();
+            if(!ownerUUID.toString().equals(player.getUniqueId().toString())){
+                player.sendMessage(Component.text("あなたはこの土地の所有者ではありません"));
+                return false;
+            }
+
+            DatabaseManager database = UniverseLand.getInstance().getDatabaseManager();
+            UniverseEconomyAPI economy = UniverseEconomyAPI.getInstance();
+
+            try {
+                database.getLandRepository().deleteLand(database.getLandRepository().getLand(land.getId()));
+                economy.addMoney(player, land.getPrice(), "土地の売却");
+            } catch (LandNotFoundException | UserNotFoundException | MoneyNotFoundException | CanNotAddMoneyException |
+                     ParameterException ignored) {
+            }
+
+            player.sendMessage(Component.text("土地を [" + land.getPrice() + "star] で売却しました"));
         } else if (args[0].equals("invite")) {
             if (args.length == 1) {
                 player.sendMessage(Component.text("招待するプレイヤー名を指定してください"));
@@ -129,7 +155,7 @@ public class LandCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         if (args.length == 1) {
-            List<String> completions = List.of("buy", "invite", "here");
+            List<String> completions = List.of("buy", "invite", "here", "sell");
             return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
         }
         return ImmutableList.of();
