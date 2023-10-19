@@ -65,7 +65,7 @@ public class TouchEvent implements Listener {
 
                 int size = landData.getLand().getSize();
 
-                if (size <= 0) {
+                if (size <= 1) {
                     player.sendMessage(Component.text("保護する範囲は、2マス以上にしてください"));
                     landData.resetLandData();
                     return;
