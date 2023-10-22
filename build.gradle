@@ -16,6 +16,13 @@ repositories {
         url = "https://oss.sonatype.org/content/groups/public/"
     }
     maven {
+        url = uri("https://maven.pkg.github.com/spaceserveruniverse/universecore")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
+    maven {
         url = uri("https://maven.pkg.github.com/spaceserveruniverse/universeeconomy")
         credentials {
             username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
@@ -27,7 +34,7 @@ repositories {
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
     compileOnly "space.yurisi:universeeconomy:1.0.2"
-    implementation(fileTree(dir: 'lib', include: ['*.jar']))
+    compileOnly "space.yurisi:universecore:1.6.2"
 }
 
 def targetJavaVersion = 17
