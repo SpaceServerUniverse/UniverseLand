@@ -38,7 +38,7 @@ public class BoundingBox {
     }
 
     public boolean isOverlapping(BoundingBox other) {
-        return (minX <= other.maxX && maxX >= other.minX) && (minZ <= other.maxZ && maxZ >= other.minZ);
+        return worldName.equals(other.getWorldName()) && (minX <= other.maxX && maxX >= other.minX) && (minZ <= other.maxZ && maxZ >= other.minZ);
     }
 
     public int getSize() {

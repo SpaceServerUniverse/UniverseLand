@@ -53,6 +53,11 @@ public class LandCommand implements CommandExecutor, TabCompleter {
         } else if (args[0].equals("buy")) {
             BoundingBox land = landData.getLand();
 
+            if(land == null){
+                player.sendMessage(Component.text("土地を購入する場合は /land で土地を指定してください"));
+                return false;
+            }
+
             if (UniverseLand.getInstance().getPluginConfig().getDenyWorlds().contains(land.getWorldName())) {
                 player.sendMessage(Component.text("このワールドでは土地を保護することはできません"));
                 return false;
