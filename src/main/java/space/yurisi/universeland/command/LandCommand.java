@@ -121,6 +121,7 @@ public class LandCommand implements CommandExecutor, TabCompleter {
                 return false;
             }else if(args[1].equals(player.getName())){
                 player.sendMessage(Component.text("自分を招待することはできません"));
+                return false;
             }
 
             DatabaseManager database = UniverseLand.getInstance().getDatabaseManager();
