@@ -22,15 +22,13 @@ public class PlaceEvent implements Listener {
     public void onPlace(BlockPlaceEvent event) throws LandNotFoundException {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        Block placedBlock = event.getBlockPlaced();
 
         LandData blockData = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
-        LandData placedBlockData = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(placedBlock.getX(), placedBlock.getZ(), placedBlock.getX(), placedBlock.getZ(), placedBlock.getWorld().getName()));
 
-        if ((blockData != null && !blockData.isOwner(player) && !blockData.canAccess(player)) || (placedBlockData != null && !placedBlockData.isOwner(player) && !placedBlockData.canAccess(player))) {
+        if (blockData != null && !blockData.canAccess(player)) {
             event.setCancelled(true);
 
-            OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(blockData != null ? blockData.getOwnerUUID() : placedBlockData.getOwnerUUID());
+            OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(blockData.getOwnerUUID());
             player.sendActionBar(Component.text("この土地は" + p.getName() + "によって保護されています"));
         }
     }

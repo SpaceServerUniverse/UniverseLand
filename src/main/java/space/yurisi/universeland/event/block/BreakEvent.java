@@ -23,7 +23,7 @@ public class BreakEvent implements Listener {
 
         LandData data = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
 
-        if (data != null && !data.isOwner(player) && !data.canAccess(player)) {
+        if (data != null && !data.canAccess(player)) {
             event.setCancelled(true);
 
             OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());

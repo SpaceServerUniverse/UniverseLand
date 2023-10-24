@@ -33,12 +33,15 @@ public class TouchEvent implements Listener {
 
         if(block == null) return;
 
-        LandData data = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
+        Block relativeBlock = block.getRelative(event.getBlockFace());
 
-        if (data != null && !data.isOwner(player) && !data.canAccess(player)) {
+        LandData blockData = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
+        LandData relativeData = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(relativeBlock.getX(), relativeBlock.getZ(), relativeBlock.getX(), relativeBlock.getZ(), relativeBlock.getWorld().getName()));
+
+        if ((blockData != null && !blockData.canAccess(player)) || (relativeData != null && !relativeData.canAccess(player))) {
             event.setCancelled(true);
 
-            OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());
+            OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(blockData != null ? blockData.getOwnerUUID() : relativeData.getOwnerUUID());
             player.sendActionBar(Component.text("この土地は" + p.getName() + "によって保護されています"));
             return;
         }
