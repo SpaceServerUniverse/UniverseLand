@@ -48,7 +48,7 @@ public class LandData {
     }
 
     public boolean canAccess(Player player) {
-        if (player.isOp() || ownerUUID.toString().equals("")) {
+        if (player.isOp() || ownerUUID.toString().equals(player.getUniqueId().toString())) {
             return true;
         }
 
