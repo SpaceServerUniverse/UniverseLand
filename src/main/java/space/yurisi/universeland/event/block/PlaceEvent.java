@@ -14,19 +14,23 @@ import space.yurisi.universeland.manager.LandDataManager;
 import space.yurisi.universeland.store.LandData;
 import space.yurisi.universeland.utils.BoundingBox;
 
+import java.util.UUID;
+
 public class PlaceEvent implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlace(BlockPlaceEvent event) throws LandNotFoundException {
         Player player = event.getPlayer();
         Block block = event.getBlock();
+        Block placedBlock = event.getBlockPlaced();
 
-        LandData data = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
+        LandData blockData = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
+        LandData placedBlockData = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(placedBlock.getX(), placedBlock.getZ(), placedBlock.getX(), placedBlock.getZ(), placedBlock.getWorld().getName()));
 
-        if (data != null && !data.isOwner(player) && !data.canAccess(player)) {
+        if ((blockData != null && !blockData.isOwner(player) && !blockData.canAccess(player)) || (placedBlockData != null && !placedBlockData.isOwner(player) && !placedBlockData.canAccess(player))) {
             event.setCancelled(true);
 
-            OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());
+            OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(blockData != null ? blockData.getOwnerUUID() : placedBlockData.getOwnerUUID());
             player.sendActionBar(Component.text("この土地は" + p.getName() + "によって保護されています"));
         }
     }
