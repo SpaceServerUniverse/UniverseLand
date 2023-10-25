@@ -89,7 +89,7 @@ public class TouchEvent implements Listener {
                 }
 
                 player.sendMessage(Component.text("EndPositionを設定しました (X: " + x + ", Z: " + z + ")"));
-                player.sendMessage(Component.text("サイズ: " + size + "ブロック (値段: " + landData.getPrice()));
+                player.sendMessage(Component.text("サイズ: " + size + "ブロック (値段: " + landData.getPrice() + "star)"));
                 if(player.getName().startsWith("*")){
                     player.sendMessage(Component.text("指定した範囲の土地を購入する際は、/land buyを実行してください"));
                 }else{
