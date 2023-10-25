@@ -1,6 +1,8 @@
 package space.yurisi.universeland.event.player;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -87,8 +89,15 @@ public class TouchEvent implements Listener {
                 }
 
                 player.sendMessage(Component.text("EndPositionを設定しました (X: " + x + ", Z: " + z + ")"));
-                player.sendMessage(Component.text("サイズ: " + size + "ブロック (値段: " + landData.getPrice()));
-                player.sendMessage(Component.text("指定した範囲の土地を購入する際は、/land buyを実行してください"));
+                player.sendMessage(Component.text("サイズ: " + size + "ブロック (値段: " + landData.getPrice() + "star)"));
+                if(player.getName().startsWith("*")){
+                    player.sendMessage(Component.text("指定した範囲の土地を購入する際は、/land buyを実行してください"));
+                }else{
+                    Component component = Component.text("[ここをクリックで土地を購入]")
+                            .clickEvent(ClickEvent.runCommand("/land buy"))
+                            .hoverEvent(HoverEvent.showText(Component.text("クリックすると土地を購入します")));
+                    player.sendMessage(component);
+                }
             }
         }
     }
