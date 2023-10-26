@@ -53,7 +53,7 @@ public class LandDataManager {
             try {
                 List<LandPermission> dbAllowedList = database.getLandPermissionRepository().getLandPermissions(land);
                 List<UUID> allowedList = new ArrayList<>();
-                for(LandPermission landPermission : dbAllowedList){
+                for (LandPermission landPermission : dbAllowedList) {
                     allowedList.add(UUID.fromString(landPermission.getUuid()));
                 }
                 data.add(new LandData(land.getId(), UUID.fromString(land.getUuid()), land.getPrice(), new BoundingBox(land.getStart_x(), land.getStart_z(), land.getEnd_x(), land.getEnd_z(), land.getWorld_name()), allowedList));
@@ -75,6 +75,8 @@ public class LandDataManager {
     }
 
     public LandData ultimateChickenHorseMaximumTheHormoneGetYutakaOzakiGreatGodUniverseWonderfulSpecialExpertPerfectHumanVerySuperGeri(Player player) {
-        return getOverlapLandData(new BoundingBox((int) player.getX(), (int) player.getZ(), (int) player.getX(), (int) player.getZ(), player.getWorld().getName()));
+        int x = (int) Math.round(player.getX());
+        int z = (int) Math.round(player.getZ());
+        return getOverlapLandData(new BoundingBox(x, z, x, z, player.getWorld().getName()));
     }
 }
