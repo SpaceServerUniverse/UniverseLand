@@ -14,21 +14,22 @@ import space.yurisi.universeland.manager.LandDataManager;
 import space.yurisi.universeland.store.LandData;
 import space.yurisi.universeland.utils.BoundingBox;
 
-import java.util.UUID;
-
 public class PlaceEvent implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlace(BlockPlaceEvent event) throws LandNotFoundException {
         Player player = event.getPlayer();
-        Block block = event.getBlock();
+        Block block = event.getBlockPlaced();
 
-        LandData blockData = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
+        LandDataManager landDataManager = LandDataManager.getInstance();
+        BoundingBox bb = new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName());
 
-        if (blockData != null && !blockData.canAccess(player)) {
+        if(!landDataManager.canAccess(player, bb)){
             event.setCancelled(true);
 
-            OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(blockData.getOwnerUUID());
+            LandData data = landDataManager.getLandData(bb);
+
+            OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());
             player.sendActionBar(Component.text("この土地は" + p.getName() + "によって保護されています"));
         }
     }

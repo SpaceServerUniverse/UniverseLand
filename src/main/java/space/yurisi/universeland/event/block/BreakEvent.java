@@ -21,10 +21,13 @@ public class BreakEvent implements Listener {
         Player player = event.getPlayer();
         Block block = event.getBlock();
 
-        LandData data = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
+        LandDataManager landDataManager = LandDataManager.getInstance();
+        BoundingBox bb = new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName());
 
-        if (data != null && !data.canAccess(player)) {
+        if (!landDataManager.canAccess(player, bb)) {
             event.setCancelled(true);
+
+            LandData data = landDataManager.getLandData(bb);
 
             OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());
             player.sendActionBar(Component.text("この土地は" + p.getName() + "によって保護されています"));

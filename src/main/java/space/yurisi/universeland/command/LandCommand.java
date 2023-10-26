@@ -63,7 +63,7 @@ public class LandCommand implements CommandExecutor, TabCompleter {
                 return false;
             }
 
-            LandData overlapLandData = LandDataManager.getInstance().getOverlapLandData(land);
+            LandData overlapLandData = LandDataManager.getInstance().getLandData(land);
 
             if (overlapLandData != null) {
                 OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(overlapLandData.getOwnerUUID());
