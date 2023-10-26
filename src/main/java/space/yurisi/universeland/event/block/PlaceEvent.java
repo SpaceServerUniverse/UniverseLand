@@ -23,12 +23,15 @@ public class PlaceEvent implements Listener {
         Player player = event.getPlayer();
         Block block = event.getBlockPlaced();
 
-        LandData blockData = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
+        LandDataManager landDataManager = LandDataManager.getInstance();
+        BoundingBox bb = new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName());
 
-        if (blockData != null && !blockData.canAccess(player)) {
+        if(!landDataManager.canAccess(player, bb)){
             event.setCancelled(true);
 
-            OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(blockData.getOwnerUUID());
+            LandData data = landDataManager.getOverlapLandData(bb);
+
+            OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());
             player.sendActionBar(Component.text("この土地は" + p.getName() + "によって保護されています"));
         }
     }

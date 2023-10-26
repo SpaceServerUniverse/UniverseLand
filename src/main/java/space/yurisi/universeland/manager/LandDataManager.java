@@ -74,6 +74,11 @@ public class LandDataManager {
         return null;
     }
 
+    public boolean canAccess(Player player, BoundingBox bb){
+        LandData data = getOverlapLandData(bb);
+        return data != null && !data.canAccess(player);
+    }
+
     public LandData ultimateChickenHorseMaximumTheHormoneGetYutakaOzakiGreatGodUniverseWonderfulSpecialExpertPerfectHumanVerySuperGeri(Player player) {
         int x = (int) Math.round(player.getX());
         int z = (int) Math.round(player.getZ());
