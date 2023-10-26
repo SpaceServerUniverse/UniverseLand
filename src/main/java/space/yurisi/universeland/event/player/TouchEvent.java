@@ -3,6 +3,7 @@ package space.yurisi.universeland.event.player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -33,14 +34,16 @@ public class TouchEvent implements Listener {
         UUID uuid = player.getUniqueId();
         Block block = event.getClickedBlock();
 
-        if(block == null) return;
+        if (block == null) return;
+
+        Material type = block.getType();
 
         Block relativeBlock = block.getRelative(event.getBlockFace());
 
         LandData blockData = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
         LandData relativeData = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(relativeBlock.getX(), relativeBlock.getZ(), relativeBlock.getX(), relativeBlock.getZ(), relativeBlock.getWorld().getName()));
 
-        if ((blockData != null && !blockData.canAccess(player)) || (relativeData != null && !relativeData.canAccess(player))) {
+        if ((blockData != null && !blockData.canAccess(player) && type.isInteractable()) || (relativeData != null && !relativeData.canAccess(player))) {
             event.setCancelled(true);
 
             OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(blockData != null ? blockData.getOwnerUUID() : relativeData.getOwnerUUID());
@@ -90,9 +93,9 @@ public class TouchEvent implements Listener {
 
                 player.sendMessage(Component.text("EndPositionを設定しました (X: " + x + ", Z: " + z + ")"));
                 player.sendMessage(Component.text("サイズ: " + size + "ブロック (値段: " + landData.getPrice() + "star)"));
-                if(player.getName().startsWith("*")){
+                if (player.getName().startsWith("*")) {
                     player.sendMessage(Component.text("指定した範囲の土地を購入する際は、/land buyを実行してください"));
-                }else{
+                } else {
                     Component component = Component.text("[ここをクリックで土地を購入]")
                             .clickEvent(ClickEvent.runCommand("/land buy"))
                             .hoverEvent(HoverEvent.showText(Component.text("クリックすると土地を購入します")));

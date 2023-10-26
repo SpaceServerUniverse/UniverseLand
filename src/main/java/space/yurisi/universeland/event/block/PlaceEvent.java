@@ -21,7 +21,7 @@ public class PlaceEvent implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlace(BlockPlaceEvent event) throws LandNotFoundException {
         Player player = event.getPlayer();
-        Block block = event.getBlock();
+        Block block = event.getBlockPlaced();
 
         LandData blockData = LandDataManager.getInstance().getOverlapLandData(new BoundingBox(block.getX(), block.getZ(), block.getX(), block.getZ(), block.getWorld().getName()));
 
