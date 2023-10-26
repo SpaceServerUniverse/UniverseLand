@@ -65,7 +65,7 @@ public class LandDataManager {
         return data;
     }
 
-    public LandData getOverlapLandData(BoundingBox other) {
+    public LandData getLandData(BoundingBox other) {
         for (LandData land : getLandsData()) {
             BoundingBox bb = land.getBoundingBox();
             if (bb.isOverlapping(other)) return land;
@@ -75,13 +75,13 @@ public class LandDataManager {
     }
 
     public boolean canAccess(Player player, BoundingBox bb){
-        LandData data = getOverlapLandData(bb);
+        LandData data = getLandData(bb);
         return data != null && !data.canAccess(player);
     }
 
     public LandData ultimateChickenHorseMaximumTheHormoneGetYutakaOzakiGreatGodUniverseWonderfulSpecialExpertPerfectHumanVerySuperGeri(Player player) {
         int x = (int) Math.round(player.getX());
         int z = (int) Math.round(player.getZ());
-        return getOverlapLandData(new BoundingBox(x, z, x, z, player.getWorld().getName()));
+        return getLandData(new BoundingBox(x, z, x, z, player.getWorld().getName()));
     }
 }

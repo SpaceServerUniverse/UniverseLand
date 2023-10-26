@@ -14,8 +14,6 @@ import space.yurisi.universeland.manager.LandDataManager;
 import space.yurisi.universeland.store.LandData;
 import space.yurisi.universeland.utils.BoundingBox;
 
-import java.util.UUID;
-
 public class PlaceEvent implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -29,7 +27,7 @@ public class PlaceEvent implements Listener {
         if(!landDataManager.canAccess(player, bb)){
             event.setCancelled(true);
 
-            LandData data = landDataManager.getOverlapLandData(bb);
+            LandData data = landDataManager.getLandData(bb);
 
             OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());
             player.sendActionBar(Component.text("この土地は" + p.getName() + "によって保護されています"));

@@ -46,7 +46,7 @@ public class TouchEvent implements Listener {
         if (!landDataManager.canAccess(player, bb) && type.isInteractable()) {
             event.setCancelled(true);
 
-            LandData data = landDataManager.getOverlapLandData(bb);
+            LandData data = landDataManager.getLandData(bb);
 
             OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(data.getOwnerUUID());
             player.sendActionBar(Component.text("この土地は" + p.getName() + "によって保護されています"));
@@ -85,7 +85,7 @@ public class TouchEvent implements Listener {
                     return;
                 }
 
-                LandData overlapLandData = LandDataManager.getInstance().getOverlapLandData(landData.getLand());
+                LandData overlapLandData = LandDataManager.getInstance().getLandData(landData.getLand());
 
                 if (overlapLandData != null) {
                     OfflinePlayer p = UniverseLand.getInstance().getServer().getOfflinePlayer(overlapLandData.getOwnerUUID());
