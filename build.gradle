@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'space.yurisi'
-version = '1.4.4'
+version = '1.4.3'
 
 repositories {
     mavenCentral()
